@@ -31,7 +31,7 @@ export const Hero = () => {
         
         <button
           onClick={scrollToUpload}
-          className="group inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-primary to-red-500 text-white font-bold text-lg rounded-lg hover:scale-105 transition-all duration-300 border-glow"
+          className="group inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-cyan-400 via-primary to-teal-400 text-background font-bold text-lg rounded-lg hover:scale-105 transition-all duration-300 border-glow"
         >
           Start Detection
           <ArrowDown className="w-5 h-5 group-hover:translate-y-1 transition-transform" />

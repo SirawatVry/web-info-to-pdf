@@ -133,7 +133,7 @@ export const ImageUpload = ({ onPredict, isLoading }: ImageUploadProps) => {
               <Button
                 onClick={handlePredict}
                 disabled={isLoading}
-                className="w-full h-14 text-lg font-bold bg-gradient-to-r from-primary to-red-500 hover:scale-[1.02] transition-all border-glow"
+                className="w-full h-14 text-lg font-bold bg-gradient-to-r from-cyan-400 via-primary to-teal-400 hover:scale-[1.02] transition-all border-glow text-background"
               >
                 {isLoading ? (
                   <>

@@ -8,51 +8,51 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    /* Biker theme - dark with crimson accents */
-    --background: 0 0% 4%;
-    --foreground: 0 0% 98%;
+    /* Aquamarine neon theme - dark with cyan/teal accents */
+    --background: 195 100% 3%;
+    --foreground: 180 100% 98%;
 
-    --card: 0 0% 8%;
-    --card-foreground: 0 0% 98%;
+    --card: 195 90% 8%;
+    --card-foreground: 180 100% 98%;
 
-    --popover: 0 0% 6%;
-    --popover-foreground: 0 0% 98%;
+    --popover: 195 95% 6%;
+    --popover-foreground: 180 100% 98%;
 
-    --primary: 0 72% 51%;
-    --primary-foreground: 0 0% 100%;
+    --primary: 180 100% 50%;
+    --primary-foreground: 195 100% 5%;
 
-    --secondary: 0 0% 15%;
-    --secondary-foreground: 0 0% 90%;
+    --secondary: 190 80% 15%;
+    --secondary-foreground: 180 100% 90%;
 
-    --muted: 0 0% 12%;
-    --muted-foreground: 0 0% 60%;
+    --muted: 195 70% 12%;
+    --muted-foreground: 180 20% 65%;
 
-    --accent: 0 72% 51%;
-    --accent-foreground: 0 0% 100%;
+    --accent: 180 100% 50%;
+    --accent-foreground: 195 100% 5%;
 
     --destructive: 0 72% 51%;
     --destructive-foreground: 0 0% 98%;
 
-    --border: 0 0% 18%;
-    --input: 0 0% 18%;
-    --ring: 0 72% 51%;
+    --border: 185 70% 20%;
+    --input: 185 70% 20%;
+    --ring: 180 100% 50%;
 
     --radius: 0.75rem;
 
-    /* Custom biker theme tokens */
-    --metallic: 0 0% 70%;
-    --road-dark: 0 0% 6%;
-    --crimson: 0 72% 51%;
-    --neon-glow: 0 72% 51%;
+    /* Custom aquamarine neon theme tokens */
+    --metallic: 180 50% 70%;
+    --ocean-dark: 195 100% 6%;
+    --aqua: 180 100% 50%;
+    --neon-glow: 180 100% 50%;
     
     /* Gradients */
-    --gradient-road: linear-gradient(180deg, hsl(0 0% 4%) 0%, hsl(0 0% 8%) 100%);
-    --gradient-metallic: linear-gradient(135deg, hsl(0 0% 20%) 0%, hsl(0 0% 35%) 100%);
-    --gradient-crimson: linear-gradient(135deg, hsl(0 72% 51%) 0%, hsl(0 82% 61%) 100%);
+    --gradient-ocean: linear-gradient(180deg, hsl(195 100% 3%) 0%, hsl(190 90% 10%) 100%);
+    --gradient-metallic: linear-gradient(135deg, hsl(185 50% 20%) 0%, hsl(180 60% 35%) 100%);
+    --gradient-aqua: linear-gradient(135deg, hsl(180 100% 50%) 0%, hsl(170 100% 60%) 100%);
     
     /* Shadows and glows */
-    --shadow-neon: 0 0 20px hsl(0 72% 51% / 0.5);
-    --shadow-card: 0 10px 30px hsl(0 0% 0% / 0.5);
+    --shadow-neon: 0 0 30px hsl(180 100% 50% / 0.6), 0 0 60px hsl(180 100% 50% / 0.3);
+    --shadow-card: 0 10px 40px hsl(180 100% 50% / 0.15), 0 5px 15px hsl(0 0% 0% / 0.5);
     
     --sidebar-background: 0 0% 8%;
     --sidebar-foreground: 0 0% 90%;
@@ -65,25 +65,25 @@ All colors MUST be HSL.
   }
 
   .dark {
-    --background: 0 0% 4%;
-    --foreground: 0 0% 98%;
-    --card: 0 0% 8%;
-    --card-foreground: 0 0% 98%;
-    --popover: 0 0% 6%;
-    --popover-foreground: 0 0% 98%;
-    --primary: 0 72% 51%;
-    --primary-foreground: 0 0% 100%;
-    --secondary: 0 0% 15%;
-    --secondary-foreground: 0 0% 90%;
-    --muted: 0 0% 12%;
-    --muted-foreground: 0 0% 60%;
-    --accent: 0 72% 51%;
-    --accent-foreground: 0 0% 100%;
+    --background: 195 100% 3%;
+    --foreground: 180 100% 98%;
+    --card: 195 90% 8%;
+    --card-foreground: 180 100% 98%;
+    --popover: 195 95% 6%;
+    --popover-foreground: 180 100% 98%;
+    --primary: 180 100% 50%;
+    --primary-foreground: 195 100% 5%;
+    --secondary: 190 80% 15%;
+    --secondary-foreground: 180 100% 90%;
+    --muted: 195 70% 12%;
+    --muted-foreground: 180 20% 65%;
+    --accent: 180 100% 50%;
+    --accent-foreground: 195 100% 5%;
     --destructive: 0 72% 51%;
     --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 18%;
-    --input: 0 0% 18%;
-    --ring: 0 72% 51%;
+    --border: 185 70% 20%;
+    --input: 185 70% 20%;
+    --ring: 180 100% 50%;
     --sidebar-background: 0 0% 8%;
     --sidebar-foreground: 0 0% 90%;
     --sidebar-primary: 0 72% 51%;
@@ -114,14 +114,14 @@ All colors MUST be HSL.
 
 @layer utilities {
   .text-gradient {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-primary to-red-500;
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 via-primary to-teal-400;
   }
   
   .glow-primary {
-    text-shadow: 0 0 20px hsl(var(--primary) / 0.5);
+    text-shadow: 0 0 30px hsl(var(--primary) / 0.8), 0 0 60px hsl(var(--primary) / 0.4);
   }
   
   .border-glow {
-    box-shadow: 0 0 20px hsl(var(--primary) / 0.3);
+    box-shadow: 0 0 30px hsl(var(--primary) / 0.5), 0 0 60px hsl(var(--primary) / 0.2);
   }
 }
