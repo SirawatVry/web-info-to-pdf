@@ -24,26 +24,41 @@ const Index = () => {
       const formData = new FormData();
       formData.append('image', file);
 
-      // Placeholder API call - replace with actual endpoint
-      // const response = await fetch('/predict', {
-      //   method: 'POST',
-      //   body: formData,
-      // });
-      // const data = await response.json();
-
-      // Simulated response for demo purposes
-      await new Promise(resolve => setTimeout(resolve, 2000));
+      console.log('Sending prediction request...');
+      // Replace this URL with the ngrok URL from the Flask server
+      const response = await fetch('http://localhost:5000/predict', {
+        method: 'POST',
+        body: formData,
+        mode: 'cors',
+        headers: {
+          'Accept': 'application/json',
+        },
+      });
       
-      const mockPrediction: PredictionResult = {
-        class: 'Helmet',
-        confidence: 0.95
-      };
-
-      setPrediction(mockPrediction);
+      console.log('Response status:', response.status);
       
+      const predictionData = await response.json();
+      console.log('Response data:', predictionData);
+
+      if (!response.ok || predictionData.error) {
+        throw new Error(predictionData.error || 'Server returned an error');
+      }
+
+      setPrediction(predictionData);
+      
+      // Get status info for the predicted class
+      const statusInfo = {
+        'All_wearing_helmet': { icon: '✅', message: 'Safe - All wearing helmets' },
+        'No_helmet': { icon: '⚠️', message: 'Unsafe - No helmets detected' },
+        'Partial_use': { icon: '⚠️', message: 'Warning - Partial helmet use' }
+      }[predictionData.class] || { icon: '❓', message: 'Unknown status' };
+
+      // Show success message
       toast({
-        title: "Analysis Complete",
-        description: `Detected: ${mockPrediction.class} (${(mockPrediction.confidence * 100).toFixed(1)}% confidence)`,
+        title: `${statusInfo.icon} Analysis Complete`,
+        description: `${statusInfo.message} (${(predictionData.confidence * 100).toFixed(1)}% confidence)`,
+        variant: predictionData.class === 'All_wearing_helmet' ? 'default' :
+                predictionData.class === 'No_helmet' ? 'destructive' : 'warning'
       });
 
       // Scroll to results

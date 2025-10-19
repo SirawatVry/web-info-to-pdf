@@ -29,9 +29,15 @@ export const Results = ({ prediction }: ResultsProps) => {
           <div className="grid md:grid-cols-2 gap-8">
             <div className="text-center p-6 bg-background/50 rounded-lg border border-border">
               <p className="text-sm text-muted-foreground mb-2 uppercase tracking-wider">
-                Detected Class
+                Helmet Detection
               </p>
-              <p className="text-4xl font-bold text-primary">{prediction.class}</p>
+              <p className={`text-4xl font-bold ${
+                prediction.class === 'All_wearing_helmet' ? 'text-green-500' :
+                prediction.class === 'No_helmet' ? 'text-red-500' :
+                'text-yellow-500'
+              }`}>
+                {prediction.class.split('_').join(' ')}
+              </p>
             </div>
 
             <div className="text-center p-6 bg-background/50 rounded-lg border border-border">
