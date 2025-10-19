@@ -5,18 +5,19 @@ import { Results } from "@/components/Results";
 import { AboutAI } from "@/components/AboutAI";
 import { Footer } from "@/components/Footer";
 import { useToast } from "@/hooks/use-toast";
+import type { ReactElement } from 'react';
 
 interface PredictionResult {
   class: string;
   confidence: number;
 }
 
-const Index = () => {
+export default function Index(): ReactElement {
   const [prediction, setPrediction] = useState<PredictionResult | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
 
-  const handlePredict = async (file: File) => {
+  const handlePredict = async (file: File): Promise<void> => {
     setIsLoading(true);
     
     try {
@@ -25,22 +26,31 @@ const Index = () => {
       formData.append('image', file);
 
       console.log('Sending prediction request...');
-      // Replace this URL with the ngrok URL from the Flask server
-      const response = await fetch('http://localhost:5000/predict', {
+      // Use the API URL from environment variable or fallback to local network
+      const apiUrl = import.meta.env.VITE_API_URL || 'http://90.90.109.102:5000';
+      console.log('Using API URL:', apiUrl);
+      
+      const response = await fetch(`${apiUrl}/predict`, {
         method: 'POST',
         body: formData,
         mode: 'cors',
         headers: {
           'Accept': 'application/json',
         },
+        // Add timeout and retry logic
+        signal: AbortSignal.timeout(30000), // 30 second timeout
       });
       
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+    
       console.log('Response status:', response.status);
       
       const predictionData = await response.json();
       console.log('Response data:', predictionData);
 
-      if (!response.ok || predictionData.error) {
+      if (predictionData.error) {
         throw new Error(predictionData.error || 'Server returned an error');
       }
 
@@ -87,6 +97,4 @@ const Index = () => {
       <Footer />
     </div>
   );
-};
-
-export default Index;
+}

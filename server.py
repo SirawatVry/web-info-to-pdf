@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, current_app
 from flask_cors import CORS
 from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing import image
@@ -11,7 +11,28 @@ from pyngrok import ngrok
 ngrok.set_auth_token("33Axe2Bg8mv7u18WSdzLYu8jAcN_7n7ZyTeSuaiybbJ3dertd")
 
 app = Flask(__name__)
-CORS(app)  # Enable CORS for all routes
+
+# Configure CORS with specific origins
+CORS(app, resources={
+    r"/*": {
+        "origins": [
+            "http://90.90.109.102:8080",  # Your local network frontend
+            "http://localhost:8080",       # Local development
+            "http://127.0.0.1:8080"        # Local development alternative
+        ],
+        "methods": ["GET", "POST", "OPTIONS"],
+        "allow_headers": ["Content-Type", "Authorization"]
+    }
+})
+
+# Additional CORS headers
+@app.after_request
+def after_request(response):
+    if request.method == 'OPTIONS':
+        response.headers.add('Access-Control-Allow-Credentials', 'true')
+        response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
+        response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS')
+    return response
 
 # Load the model
 model = load_model('best_model_4.10.h5')
@@ -80,18 +101,22 @@ def start_ngrok():
         # Kill any existing ngrok processes
         ngrok.kill()
         
+        # Set ngrok auth token
+        ngrok.set_auth_token("33Axe2Bg8mv7u18WSdzLYu8jAcN_7n7ZyTeSuaiybbJ3dertd")
+        
         # Connect with options
         tunnel = ngrok.connect(
-            addr="5000",
-            proto="http",
-            bind_tls=True,
-            hostname="postlenticular-unpreclusive-alda.ngrok-free.dev"
+            "5000",
+            "http",
         )
         public_url = tunnel.public_url
         
-        print(f'\n=== NGROK URL ===')
-        print(f'{public_url}/predict')
-        print(f'=== Copy this URL to update in Index.tsx ===\n')
+        print(f'\n=== IMPORTANT: UPDATE YOUR FRONTEND CONFIGURATION ===')
+        print(f'1. Open the .env file in your project')
+        print(f'2. Replace the VITE_API_URL with: {public_url}')
+        print(f'3. Restart your frontend server (npm run dev)')
+        print(f'\nFull URL for API calls will be: {public_url}/predict')
+        print(f'=== END CONFIGURATION INSTRUCTIONS ===\n')
         return public_url
     except Exception as e:
         print(f"Error starting ngrok: {e}")
@@ -106,6 +131,6 @@ if __name__ == '__main__':
         print("\n=== NGROK URL (Copy this) ===")
         print(f"{public_url}/predict")
         print("=== Update this URL in src/pages/Index.tsx ===\n")
-        app.run()
+        app.run(host='0.0.0.0', port=5000)
     else:
         print("Failed to start ngrok tunnel")
